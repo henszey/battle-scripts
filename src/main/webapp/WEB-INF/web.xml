@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee"
+         version="2.5">
+  <display-name>Battle Scripts</display-name>
+
+  <context-param>
+    <param-name>contextClass</param-name>
+    <param-value>
+      org.springframework.web.context.support.AnnotationConfigWebApplicationContext
+    </param-value>
+  </context-param>
+
+  <context-param>
+    <param-name>contextInitializerClasses</param-name>
+    <param-value>
+      com.battlescripts.config.AppContextInitializer
+    </param-value>
+  </context-param>
+
+  <context-param>
+    <param-name>webAppRootKey</param-name>
+    <param-value>battlescripts</param-value>
+  </context-param>
+
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+
+  <servlet>
+    <servlet-name>battlescripts</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <init-param>
+      <param-name>contextClass</param-name>
+      <param-value>
+        org.springframework.web.context.support.AnnotationConfigWebApplicationContext
+      </param-value>
+    </init-param>
+    <init-param>
+      <param-name>contextConfigLocation</param-name>
+      <param-value>com.battlescripts.config.WebConfig</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet>
+    <servlet-name>jsp</servlet-name>
+    <servlet-class>org.apache.jasper.servlet.JspServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>   
+    <servlet-name>default</servlet-name>
+    <url-pattern>*.html</url-pattern>
+</servlet-mapping>
+<servlet-mapping>
+    <servlet-name>default</servlet-name>
+    <url-pattern>*.jpg</url-pattern>
+</servlet-mapping>
+<servlet-mapping>
+ <servlet-name>default</servlet-name>
+    <url-pattern>*.png</url-pattern>
+</servlet-mapping>
+<servlet-mapping>
+    <servlet-name>default</servlet-name>
+    <url-pattern>*.css</url-pattern>
+</servlet-mapping>
+<servlet-mapping>
+    <servlet-name>default</servlet-name>
+    <url-pattern>*.js</url-pattern>
+</servlet-mapping>
+  
+  <servlet-mapping>
+    <servlet-name>battlescripts</servlet-name>
+    <url-pattern>/*</url-pattern>
+  </servlet-mapping>
+  
+  <servlet-mapping>
+    <servlet-name>jsp</servlet-name>
+    <url-pattern>/WEB-INF/jsp/*</url-pattern>
+  </servlet-mapping>
+
+  
+  <session-config>
+    <session-timeout>30</session-timeout>
+  </session-config>
+  
+  <error-page>
+    <exception-type>java.lang.Exception</exception-type>
+    <location>/uncaughtexception</location>
+  </error-page>
+</web-app>

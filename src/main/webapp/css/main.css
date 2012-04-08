@@ -1,0 +1,37 @@
+body {
+  background-color: black;
+  color: gray;
+}
+
+#the-canvas{
+  display: block;
+  margin: auto auto;
+  border: 1px solid gray;
+  clear: both;
+  margin-bottom: 40px;
+}
+
+#disqus_thread{
+  background-color: white;
+  padding: 20px;
+  clear: both;
+  margin-top: 20px;
+}
+
+#content {
+  width:1024px;/* need gutter... */
+  margin: 0 auto;
+  text-align: center;
+}
+
+#random-controls{
+  width:900px;
+  margin: 0 auto;
+  clear: both;
+  text-align: center;
+}
+
+textarea {
+	width: 600px;
+	height: 700px;
+}

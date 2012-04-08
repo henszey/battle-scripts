@@ -1,0 +1,21 @@
+
+Maven Tasks
+mvn jetty:run
+mvn package
+mvn coffeescript:compile
+mvn coffeescript:watch
+
+Credits
+Code
+Ryan Henszey http://timelessname.com
+
+Art
+mydarktime http://mydarktime.deviantart.com/art/calm-space-171451131
+surt http://opengameart.org
+Skorpio http://opengameart.org
+wuhu http://opengameart.org
+Ghosa http://opengameart.org
+Retimer http://opengameart.org
+
+Sound
+Retimer http://opengameart.org
