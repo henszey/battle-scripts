@@ -24,6 +24,7 @@ run = () ->
   delta = time - lastTime
   lastTime = time - (delta % 10)
   delta = delta - (delta % 10)
+  delta = 30 if delta > 30
   if reset
     world.constructor(world.ctx)
     reset = false

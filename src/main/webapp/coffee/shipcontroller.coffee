@@ -1,10 +1,12 @@
 class ShipController
+  
   constructor: () ->
-
-  step: (@myShip, @ships, @bullets) ->
     @thrust = false
     @facing = 0   
     @shooting = false
+    
+  step: (@myShip, @ships, @bullets) ->
+
     
   thrustOn: ->
     @thrust = true
@@ -25,7 +27,17 @@ class ShipController
     @shooting = true
   shootingOff: ->
     @shooting = false
-  
+    
+  drawLineTo: (target) ->
+    ctx = world.ctx
+    ctx.globalAlpha=0.2
+    ctx.beginPath();
+    ctx.strokeStyle = "gray"
+    ctx.moveTo(@myShip.x,768-@myShip.y);
+    ctx.lineTo(target.x,768-target.y);
+    ctx.closePath();
+    ctx.stroke();
+
   
 class ExampleController extends ShipController
   constructor: () ->
@@ -52,25 +64,20 @@ class ExampleController extends ShipController
       @shootingOff()
     
 
-  findClosestToShip: (ships) ->
+  findClosestToShip: (entities) ->
     closestShipDistance = 1000000   
-    closetShip = 0
-    for enemyShip in ships
-      if enemyShip.ownerId != @myShip.id
-        distance = UTIL.distance(@myShip,enemyShip)
+    closestEntity = 0
+    for entity in entities
+      if entity.ownerId != @myShip.id
+        distance = UTIL.distance(@myShip,entity)
         if distance < closestShipDistance
           closestShipDistance = distance
-          closetShip = enemyShip
-    closetShip
-      
-      
-   drawLineTo: (target) ->
-    ctx = world.ctx
-    ctx.globalAlpha=0.2
-    ctx.beginPath();
-    ctx.strokeStyle = "gray"
-    ctx.moveTo(@myShip.x,768-@myShip.y);
-    ctx.lineTo(target.x,768-target.y);
-    ctx.closePath();
-    ctx.stroke();
-   
+          closestEntity = entity
+    closestEntity
+
+class SittingDuckController extends ShipController
+  constructor: () ->
+    super()
+    
+  step: (@myShip, @ships, @bullets) ->
+    thrustOff()

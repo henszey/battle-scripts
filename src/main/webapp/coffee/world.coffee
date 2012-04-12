@@ -9,12 +9,10 @@ class World
       ship = new Ship()
       ship.sprite = spriteManager.sprites["Astro" + ((num%10)+1)]
       shipController = new ExampleController()
+      #new SittingDuckController() 
       ship.shipController = shipController
       ship.x = Math.random()*1024
       ship.y = Math.random()*768
-      ship.facing = Math.random()*Math.PI*2
-      ship.accel = 0.05
-      #ship.rotSpeed = 0.0001
       @ships.push ship
 
   step: (delta) ->
@@ -32,6 +30,8 @@ class World
           ship.shipController.step(ship, @ships, @bullets)
           ship.facing = ship.shipController.facing
           ship.facing = 0 if isNaN ship.facing 
+          if ship.shipController.thrust
+            ship.accel = 0.01
           if ship.shipController.shooting and ship.energy > 10 and ship.weaponCooldown <= 0
             ship.weaponCooldown = 1
             ship.energy -= 10
@@ -99,16 +99,20 @@ class World
     @tick++ 
       
   draw: () ->
+    @ctx.save()
+    @ctx.translate(256+@ships[0].x,192+@ships[0].y)
 #   @ctx.fillStyle = "rgb(0,0,0)" 
 #   @ctx.fillRect  0, 0, 1024, 768
     @ctx.globalAlpha=1.0
     @ctx.drawImage(backImage,0,0)
+    
     for effect in @effects
       effect.draw @ctx
     for ship in @ships
       ship.draw @ctx
     for bullet in @bullets
       bullet.draw @ctx
+    @ctx.restore()
     
     
   

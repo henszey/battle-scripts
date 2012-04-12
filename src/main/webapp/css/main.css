@@ -9,6 +9,8 @@ body {
   border: 1px solid gray;
   clear: both;
   margin-bottom: 40px;
+  width: 1024px;
+  height: 768px;
 }
 
 #disqus_thread{
