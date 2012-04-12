@@ -22,7 +22,7 @@ import org.springframework.web.servlet.config.MvcNamespaceHandler;
 @Configuration
 //@EnableCaching(mode = AdviceMode.ASPECTJ)
 @ComponentScan(basePackages = "com.battlescripts", excludeFilters = {@ComponentScan.Filter(Controller.class), @ComponentScan.Filter(Configuration.class)})
-@ImportResource("classpath:/static-resources.xml")
+@ImportResource({"classpath:/static-resources.xml", "classpath:/security.xml"})
 public class AppConfig {
 
   @Inject
