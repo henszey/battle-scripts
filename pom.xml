@@ -169,9 +169,28 @@
       <version>1.2</version>
     </dependency>
     
+    <dependency>
+      <groupId>javax.mail</groupId>
+      <artifactId>mail</artifactId>
+      <version>1.4</version>
+    </dependency>
+            
 
+    <dependency>
+      <groupId>caja</groupId>
+      <artifactId>caja</artifactId>
+      <version>r4527</version>
+    </dependency>
             
   </dependencies>
+
+	<repositories>
+	    <repository>
+	      <id>google-caja</id>
+	      <url>http://google-caja.googlecode.com/svn/maven/</url>
+	    </repository>
+	 </repositories>
+
 
   <build>
     <plugins>

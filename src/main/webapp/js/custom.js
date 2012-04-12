@@ -34,6 +34,19 @@ $(function(){
   $( "#shipCount" ).html(  $( "#slider" ).slider( "value" ) );
   $("#reset").button();
   $("#reset").click(function(){
+	  
+	  try{
+		  var customController = $("#custom-code-area").val();
+		  var result = CoffeeScript.compile(customController, {bare: true});
+		  eval(result);
+		  alert(ExampleController2);
+		  //alert(result);
+	  }
+	  catch(e){
+		  alert(e);
+		  return;
+	  }
+	  
 	  world.config.reset = true;
   });
   $("#pause").button();
