@@ -1,0 +1,40 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+  xmlns:beans="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+           http://www.springframework.org/schema/security
+           http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+
+  <beans:bean id="accessDecisionManager" class="org.springframework.security.access.vote.UnanimousBased">
+    <beans:property name="decisionVoters">
+      <beans:list>
+        <beans:bean id="roleVoter" class="org.springframework.security.access.vote.RoleHierarchyVoter">
+          <beans:constructor-arg ref="roleHierarchy" />
+        </beans:bean>
+      </beans:list>
+    </beans:property>
+  </beans:bean>
+  
+  <beans:bean id="roleHierarchy" class="org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl">
+    <beans:property name="hierarchy">
+      <beans:value>
+        ROLE_ADMIN > ROLE_USER
+        ROLE_USER > ROLE_ANONYMOUS
+      </beans:value>
+    </beans:property>
+  </beans:bean>
+         
+  <http auto-config='true' access-decision-manager-ref="accessDecisionManager">
+    <intercept-url pattern="/matchup" access="ROLE_USER" />
+    <intercept-url pattern="/**" access="ROLE_ANONYMOUS" />
+    <form-login login-page="/login" login-processing-url="/dologin" username-parameter="name" password-parameter="password" />
+  </http>
+  
+  <authentication-manager>
+    <authentication-provider>
+      <jdbc-user-service data-source-ref="mysqlDataSource"/>
+    </authentication-provider>
+  </authentication-manager>
+  
+</beans:beans>
