@@ -50,7 +50,7 @@
   <body>
     <div id="content">
     <h1>BATTLE SCRIPTS</h1>
-    <canvas id="the-canvas" width="2048" height="1536" ></canvas>
+    <canvas id="the-canvas" width="1024" height="768" ></canvas>
     <div id="random-controls">
     <div id="slider"></div>
     Ships: <span id="shipCount"> </span>

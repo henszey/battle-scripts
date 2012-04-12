@@ -99,11 +99,14 @@ class World
     @tick++ 
       
   draw: () ->
+    @ctx.fillStyle = "rgb(0,0,0)" 
+    @ctx.fillRect  0, 0, 1024, 768
+    
     @ctx.save()
-    @ctx.translate(256+@ships[0].x,192+@ships[0].y)
-#   @ctx.fillStyle = "rgb(0,0,0)" 
-#   @ctx.fillRect  0, 0, 1024, 768
+    @ctx.translate(512-@ships[0].x,-384+@ships[0].y) # @x,768-@y
+
     @ctx.globalAlpha=1.0
+    #@ctx.drawImage(backImage,0,0,1024,768,-512,-384,1024*2,768*2)
     @ctx.drawImage(backImage,0,0)
     
     for effect in @effects
