@@ -57,6 +57,7 @@
     <br>
     <input type="button" id="reset" value="Reset" />
     <input type="checkbox" id="pause" /><label for="pause">Pause</label>
+    <input type="checkbox" id="firstPerson" /><label for="firstPerson">First Person</label>
     </div>
 <div style="clear: both;width:1024px;">
 <div style="float: left;">

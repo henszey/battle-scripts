@@ -34,11 +34,15 @@ $(function(){
   $( "#shipCount" ).html(  $( "#slider" ).slider( "value" ) );
   $("#reset").button();
   $("#reset").click(function(){
-	  reset = true;
+	  world.config.reset = true;
   });
   $("#pause").button();
   $("#pause").change(function(){
-	  pause = $(this).is(':checked');
+	  world.config.pause = $(this).is(':checked');
+  });
+  $("#firstPerson").button();
+  $("#firstPerson").change(function(){
+	  world.config.firstPerson = $(this).is(':checked');
   });
   
 });
