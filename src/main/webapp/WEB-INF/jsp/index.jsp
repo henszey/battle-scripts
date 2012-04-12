@@ -132,31 +132,32 @@ Asdf
         cajaServer: 'https://caja.appspot.com/',
         debug: true
       });
+     
       caja.load(document.getElementById('guest'), undefined, function(frame) {
-        var listeners = [];
+        var controllers = [];
 
-        var timerService = {  // (1)
-          registerListener: function(l) {
-            listeners.push(l);
+        var gameService = {
+          registerController: function(l) {
+            controllers.push(l);
           }
         };
-        caja.markReadOnlyRecord(timerService);  // (2)
-        caja.markFunction(timerService.registerListener);
-        var tamedTimerService = caja.tame(timerService);
+        caja.markReadOnlyRecord(gameService);
+        caja.markFunction(gameService.registerController);
+        var tamedGameService = caja.tame(gameService);
 
-        function callListeners() {  // (3)
-          var event = { time: '' + new Date() };  // (4)
+        function callListeners() { 
+          var event = { myShip: {}, ships: [], bullets: [] };
           caja.markReadOnlyRecord(event);
           var tamedEvent = caja.tame(event);
-          for (var i = 0; i < listeners.length; i++) {
-            listeners[i](tamedEvent);  // (5)
+          for (var i = 0; i < controllers.length; i++) {
+            var response = controllers[i](tamedEvent); 
           }
         };
 
-        setInterval(callListeners, 1000);  // (6)
+        setInterval(callListeners, 1000);
 
         frame.code('/about','text/html')
-             .api({ timerService: tamedTimerService })
+             .api({ gameService: tamedGameService })
              .run();
      });
     </script>
