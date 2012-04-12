@@ -34,11 +34,28 @@ $(function(){
   $( "#shipCount" ).html(  $( "#slider" ).slider( "value" ) );
   $("#reset").button();
   $("#reset").click(function(){
-	  reset = true;
+	  
+	  try{
+		  var customController = $("#custom-code-area").val();
+		  var result = CoffeeScript.compile(customController, {bare: true});
+		  eval(result);
+		  alert(ExampleController2);
+		  //alert(result);
+	  }
+	  catch(e){
+		  alert(e);
+		  return;
+	  }
+	  
+	  world.config.reset = true;
   });
   $("#pause").button();
   $("#pause").change(function(){
-	  pause = $(this).is(':checked');
+	  world.config.pause = $(this).is(':checked');
+  });
+  $("#firstPerson").button();
+  $("#firstPerson").change(function(){
+	  world.config.firstPerson = $(this).is(':checked');
   });
   
 });

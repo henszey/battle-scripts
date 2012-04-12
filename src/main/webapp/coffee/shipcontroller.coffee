@@ -29,14 +29,14 @@ class ShipController
     @shooting = false
     
   drawLineTo: (target) ->
-    ctx = world.ctx
-    ctx.globalAlpha=0.2
-    ctx.beginPath();
-    ctx.strokeStyle = "gray"
-    ctx.moveTo(@myShip.x,768-@myShip.y);
-    ctx.lineTo(target.x,768-target.y);
-    ctx.closePath();
-    ctx.stroke();
+#    ctx = world.ctx
+#    ctx.globalAlpha=0.2
+#    ctx.beginPath();
+#    ctx.strokeStyle = "gray"
+#    ctx.moveTo(@myShip.x,768-@myShip.y);
+#    ctx.lineTo(target.x,768-target.y);
+#    ctx.closePath();
+#    ctx.stroke();
 
   
 class ExampleController extends ShipController

@@ -6,8 +6,7 @@ guid = 0
 world = 0
 spriteManager = 0
 
-reset = false
-pause = false
+
 
 
 
@@ -25,12 +24,12 @@ run = () ->
   lastTime = time - (delta % 10)
   delta = delta - (delta % 10)
   delta = 30 if delta > 30
-  if reset
+  if world.config.reset
     world.constructor(world.ctx)
     reset = false
-  if !pause
-    world.draw()
+  if !world.config.pause
     world.step(delta)
+  world.draw()
   requestAnimFrame run
   stats.update()
   

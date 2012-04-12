@@ -1,23 +1,30 @@
 class World
   constructor: (@ctx) ->
+    @config = {}
+    @config.width = 1024
+    @config.height = 768
+    @config.shipCount = $("#slider").slider("value")
+    @config.firstPerson = false
+    @config.pause = false
+    @config.reset = false
+    
     @tick = 0
     @ships = []
     @effects = []
     @bullets = []
-    shipCount = $("#slider").slider("value")
-    for num in [1..shipCount]
+    
+    for num in [1..@config.shipCount]
       ship = new Ship()
       ship.sprite = spriteManager.sprites["Astro" + ((num%10)+1)]
       shipController = new ExampleController()
       #new SittingDuckController() 
       ship.shipController = shipController
-      ship.x = Math.random()*1024
-      ship.y = Math.random()*768
+      ship.x = Math.random()*@config.width
+      ship.y = Math.random()*@config.height
       @ships.push ship
 
   step: (delta) ->
     for i in [1..delta/10]
-      #TODO: Clone ships
       
       if @ships.length <= 1
         @constructor(@ctx)
@@ -99,11 +106,15 @@ class World
     @tick++ 
       
   draw: () ->
+    @ctx.fillStyle = "rgb(0,0,0)" 
+    @ctx.fillRect  0, 0, @config.width, @config.height
+    
     @ctx.save()
-    @ctx.translate(256+@ships[0].x,192+@ships[0].y)
-#   @ctx.fillStyle = "rgb(0,0,0)" 
-#   @ctx.fillRect  0, 0, 1024, 768
+    if @config.firstPerson
+      @ctx.translate(@config.width/2-@ships[0].x,-@config.height/2+@ships[0].y) # @x,@config.height-@y
+
     @ctx.globalAlpha=1.0
+    #@ctx.drawImage(backImage,0,0,1024,768,-512,-384,1024*2,768*2)
     @ctx.drawImage(backImage,0,0)
     
     for effect in @effects
