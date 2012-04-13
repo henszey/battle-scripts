@@ -5,6 +5,7 @@ import javax.inject.Inject;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,15 +35,23 @@ public class ScriptsController {
   @RequestMapping(value = "/ships", method = RequestMethod.POST)
   @Secured("ROLE_USER")
   @ResponseBody
-  public String saveShip(@RequestBody Script script) throws Exception {
+  public String saveShip(@ModelAttribute Script script) throws Exception {
 
+    System.out.println(script);
+    System.out.println(script.getId());
+    System.out.println(script.getUid());
+    System.out.println(script.getContent());
+
+    System.out.println(SecurityContextHolder.getContext().getAuthentication());
+    System.out.println(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+    
     //TODO: set uid, don't take what the client sends...
     scriptService.saveScript(script);
     
     SecurityContextHolder.getContext().getAuthentication();
     SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     
-    return "success";
+    return "about";
   }
   
   @RequestMapping(value = "/ships/{id}.coffee", method = RequestMethod.GET)
@@ -67,4 +76,13 @@ public class ScriptsController {
     return javascript;
   }
   
+  @RequestMapping(value = "/ships/{id}", method = RequestMethod.GET)
+  @ResponseBody
+  public Script ship(@PathVariable Integer id) throws Exception {
+    //HttpServletResponse response 
+    //response.setContentType("application/javascript");
+    Script script = battleScriptsMapper.selectScript(id);
+    
+    return script;
+  }
 }

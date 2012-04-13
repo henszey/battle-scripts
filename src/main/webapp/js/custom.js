@@ -57,6 +57,35 @@ $(function(){
   $("#firstPerson").change(function(){
 	  world.config.firstPerson = $(this).is(':checked');
   });
-  
+  $("#saveScript").button();
+  $("#saveScript").click(function(){
+/*
+    $.ajax({
+      type: 'POST',
+      url: '/ships',
+      contentType: "application/json",
+      data:  {id: 1, uid: 2, content: $("#custom-code-area").val()},
+      success: function(data) {
+        alert(data);
+      },
+      dataType: 'json',
+    });
+*/
+    /*
+    $.post('/ships',$("#the-form").serialize(),function(data) {
+        alert(data);
+      });
+*/
+    $.ajax({
+      type: 'POST',
+      url: '/ships',
+      data: $("#the-form").serialize(),
+      success: function(data) {
+        alert(data);
+      },
+      dataType: 'json',
+    });
+  });
+
 });
 

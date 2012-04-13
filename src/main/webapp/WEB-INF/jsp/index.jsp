@@ -59,43 +59,55 @@
     <input type="button" id="reset" value="Reset" />
     <input type="checkbox" id="pause" /><label for="pause">Pause</label>
     <input type="checkbox" id="firstPerson" /><label for="firstPerson">First Person</label>
+    <input type="button" id="saveScript" value="saveScript" />
     </div>
 <div style="clear: both;width:1024px;">
 <div style="float: left;">
-<textarea id="custom-code-area"  wrap="off">
-class ExampleController extends ShipController
-  constructor: () ->
-    super
-    
-  step: (@myShip, @ships, @bullets) ->
-    @thrustOn()
-    
-    # find closest objects of interest
-    cBullet = @findClosestToShip(@bullets)
-    cShip = @findClosestToShip(@ships)
+<form id="the-form" action="/ships" method="post">
+<input type="hidden" name="uid" value="1" />
+<input type="hidden" name="name" value="1" />
+<input type="hidden" name="image" value="1" />
+<input type="hidden" name="decal" value="1" />
+<textarea id="custom-code-area"  name="content" wrap="off">
+step = (data) ->
+  myShip = data.myShip
+  ships = data.ships
+  bullets = data.bullets
 
-    # will there be enough energy to even shoot? otherwise run.
-    if(@myShip.energy >= 10 && (cBullet == 0 || UTIL.distance(@myShip,cBullet) > 200))
-      @face UTIL.angle(@myShip,cShip)
-      @shootingOn()
-    else
-      @face UTIL.angle(@myShip,cBullet) - Math.PI/2
-      @shootingOff()
+  cBullet = findClosestToShip(myShip,bullets)
+  cShip = findClosestToShip(myShip,ships)
+
+  response = {}
+
+  if(myShip.energy >= 10 && (cBullet == 0 || distance(myShip,cBullet) > 200))
+    response.shooting = true
+    response.thrust = false
+    response.face = angle(myShip,cShip)
+  else
+    response.shooting = false
+    response.thrust = true
+    response.face = angle(myShip,cBullet) - Math.PI/2
     
+  response
 
-  findClosestToShip: (ships) ->
-    closestShipDistance = 1000000   
-    closetShip = 0
-    for enemyShip in ships
-      if enemyShip.ownerId != @myShip.id
-        distance = UTIL.distance(@myShip,enemyShip)
-        if distance < closestShipDistance
-          closestShipDistance = distance
-          closetShip = enemyShip
-    closetShip
-      
-
+findClosestToShip = (myShip,entities) ->
+  closestShipDistance = 1000000   
+  closestEntity = 0
+  for entity in entities
+    if entity.ownerId != myShip.id
+      distance = distance(myShip,entity)
+      if distance < closestShipDistance
+        closestShipDistance = distance
+        closestEntity = entity
+  closestEntity
+  
+distance = (a,b) ->
+  Math.sqrt((a.x - b.x)*(a.x - b.x) + (a.y - b.y)*(a.y - b.y))
+  
+angle = (a,b) ->
+  Math.atan2(b.y-a.y,b.x-a.x)
 </textarea>
+</form>
 </div>
 <div style="float: left;padding: 10px">
 Asdf

@@ -48,7 +48,7 @@ public class AppConfig {
 
     ds.setDriverClassName("com.mysql.jdbc.Driver");
     ds.setUrl("jdbc:mysql://localhost/battlescripts_dev");
-    ds.setUsername("");
+    ds.setUsername("battlescripts");
     ds.setInitialSize(2);
     ds.setMaxActive(10);
     ds.setMinIdle(10);

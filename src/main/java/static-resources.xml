@@ -12,4 +12,7 @@
   <mvc:resources mapping="/js/**" location="/js/" />
   <mvc:resources mapping="/sounds/**" location="/sounds/" />
 
+
+
+
 </beans>

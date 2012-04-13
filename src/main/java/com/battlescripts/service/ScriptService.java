@@ -17,9 +17,11 @@ public class ScriptService {
   
   public void saveScript(Script script) throws Exception {
     coffeeScriptService.compileCoffeeScript(script.getContent());
-    if(script.getId() != null){
+    if(script.getId() == null){
+      System.out.println("INSERTING");
       battleScriptsMapper.insertScript(script);
     } else {
+      System.out.println("UPDATING");
       battleScriptsMapper.updateScript(script);
     }
   }
