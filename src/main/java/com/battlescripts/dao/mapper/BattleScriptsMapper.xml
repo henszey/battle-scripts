@@ -3,4 +3,26 @@
 
 <mapper namespace="com.battlescripts.dao.mapper.BattleScriptsMapper">
   
+  <insert id="insertScript" parameterType="Script" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+    insert into script 
+    (uid,name,image,decal,content)
+    values
+    (#{uid},#{name},#{image},#{decal},#{content})
+  </insert>
+  
+  <update id="updateScript" parameterType="Script">
+    update script set name = #{name},image = #{image},decal = #{decal},content = #{content} 
+    where id = #{id} and uid = #{uid}
+  </update>
+  
+  <select id="selectScript" resultType="Script" >
+    select id,uid,name,image,decal,content 
+    from script where id = #{id}
+  </select>  
+  
+  <select id="selectAllScript" resultType="Script">
+    select id,uid,name,image,decal,content 
+    from script
+  </select>
+  
 </mapper>

@@ -31,10 +31,13 @@
     <form-login login-page="/login" login-processing-url="/dologin" username-parameter="name" password-parameter="password" />
   </http>
   
+  <!-- http://krams915.blogspot.com/2010/12/spring-security-3-mvc-using-secured.html -->
   <authentication-manager>
     <authentication-provider>
       <jdbc-user-service data-source-ref="mysqlDataSource"/>
     </authentication-provider>
   </authentication-manager>
+  
+  <global-method-security secured-annotations="enabled" jsr250-annotations="enabled" />
   
 </beans:beans>

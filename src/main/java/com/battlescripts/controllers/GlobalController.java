@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class GlobalController {
-  
+
   @RequestMapping({"/","/index"})
   public String index() {
     return "index";
@@ -27,5 +27,6 @@ public class GlobalController {
   public String matchup() {
     return "matchup";
   }
+  
   
 }

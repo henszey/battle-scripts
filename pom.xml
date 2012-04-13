@@ -178,6 +178,11 @@
       <version>r4527</version>
     </dependency>
             
+    <dependency>
+      <groupId>org.mozilla</groupId>
+      <artifactId>rhino</artifactId>
+      <version>1.7R3</version>
+    </dependency>
   </dependencies>
 
 	<repositories>
@@ -260,6 +265,7 @@
         <directory>src/main/java</directory>
             <includes>
                 <include> **/*.xml</include>
+                <include> **/*.js</include>
             </includes>
         </resource>
     </resources>
