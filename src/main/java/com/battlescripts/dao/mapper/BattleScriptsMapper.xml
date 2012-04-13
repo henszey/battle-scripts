@@ -20,7 +20,7 @@
     from script where id = #{id}
   </select>  
   
-  <select id="selectAllScript" resultType="Script">
+  <select id="selectAllScripts" resultType="Script">
     select id,uid,name,image,decal,content 
     from script
   </select>

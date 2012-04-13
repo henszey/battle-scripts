@@ -106,6 +106,8 @@ distance = (a,b) ->
   
 angle = (a,b) ->
   Math.atan2(b.y-a.y,b.x-a.x)
+  
+gameService.registerController step
 </textarea>
 </form>
 </div>
@@ -118,22 +120,7 @@ Asdf
 <div>
 <h1>About</h1>
 </div>
-<!-- 
-<div id="disqus_thread"></div>
-<script type="text/javascript">
-    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-    var disqus_shortname = 'battlescripts'; // required: replace example with your forum shortname
 
-    /* * * DON'T EDIT BELOW THIS LINE * * */
-    (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
- -->
  </div>
  
  
@@ -163,17 +150,29 @@ Asdf
           var tamedEvent = caja.tame(event);
           for (var i = 0; i < controllers.length; i++) {
             var response = controllers[i](tamedEvent); 
+            console.log(i + " " + response);
           }
         };
 
         setInterval(callListeners, 1000);
 
-        frame.code('/about','text/html')
+        frame.code('/ships/6.html','text/html')
              .api({ gameService: tamedGameService })
              .run();
      });
     </script>
     
-    
+    <table>
+    <c:forEach items="${ships}" var="ship" >
+      <tr>
+        <td>${ship.id}</td>
+        <td>${ship.uid}</td>
+        <td>${ship.name}</td>
+        <td>${ship.image}</td>
+        <td>${ship.decal}</td>
+        <td>${ship.content}</td>
+      </tr>
+    </c:forEach>
+    </table>
   </body>
 </html>

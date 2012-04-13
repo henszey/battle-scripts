@@ -1,10 +1,12 @@
 package com.battlescripts.controllers;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -56,33 +58,41 @@ public class ScriptsController {
   
   @RequestMapping(value = "/ships/{id}.coffee", method = RequestMethod.GET)
   @ResponseBody
-  public String shipScript(@PathVariable Integer id) throws Exception {
-    //HttpServletResponse response 
-    //response.setContentType("text/coffeescript");
+  public String shipScript(HttpServletResponse response, @PathVariable Integer id) throws Exception {
     Script script = battleScriptsMapper.selectScript(id);
     
+    response.setContentType("text/coffeescript");
     return script.getContent();
   }
   
   @RequestMapping(value = "/ships/{id}.js", method = RequestMethod.GET)
   @ResponseBody
-  public String shipJavascript(@PathVariable Integer id) throws Exception {
-    //HttpServletResponse response 
-    //response.setContentType("application/javascript");
+  public String shipJavascript(HttpServletResponse response, @PathVariable Integer id) throws Exception {
+    
     Script script = battleScriptsMapper.selectScript(id);
     
     String javascript = coffeeScriptService.compileCoffeeScript(script.getContent());
     
+    response.setContentType("application/javascript");
     return javascript;
   }
   
   @RequestMapping(value = "/ships/{id}", method = RequestMethod.GET)
   @ResponseBody
   public Script ship(@PathVariable Integer id) throws Exception {
-    //HttpServletResponse response 
-    //response.setContentType("application/javascript");
+
     Script script = battleScriptsMapper.selectScript(id);
     
     return script;
   }
+  
+  @RequestMapping(value = "/ships/{id}.html", method = RequestMethod.GET)
+  public String shipPage(@PathVariable Integer id, ModelMap model) throws Exception {
+    Script script = battleScriptsMapper.selectScript(id);
+    String javascript = coffeeScriptService.compileCoffeeScript(script.getContent());
+    model.put("script", javascript);
+    return "rawscript";
+  }
+  
+
 }
