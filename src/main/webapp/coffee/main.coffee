@@ -1,5 +1,5 @@
-$ ->
-  init()
+#$ ->
+#  init()
 
 #globals to clean up....
 guid = 0
@@ -10,10 +10,10 @@ spriteManager = 0
 
 
 
-init = () ->
+init = (id) ->
   ctx = $('#the-canvas')[0].getContext("2d")
   spriteManager = new SpriteManager()
-  world = new World ctx
+  world = new World ctx,id
   run()
   
 

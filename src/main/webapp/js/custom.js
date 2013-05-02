@@ -1,3 +1,4 @@
+
 window.requestAnimFrame = (function(){
   return  window.requestAnimationFrame       || 
           window.webkitRequestAnimationFrame || 
@@ -8,8 +9,11 @@ window.requestAnimFrame = (function(){
             window.setTimeout(callback, 0);
           };
 })();
-    
-    
+/*
+window.requestAnimFrame = function( callback ){
+            window.setTimeout(callback, 0);
+          };
+ */   
 var stats;
 
 $(function(){
@@ -18,74 +22,30 @@ $(function(){
   stats.getDomElement().style.left = '0px';
   stats.getDomElement().style.top = '0px';
 
-  document.body.appendChild( stats.getDomElement() );
+  //document.body.appendChild( stats.getDomElement() );
   
-  //SyntaxHighlighter.all();
-  
-  $( "#slider" ).slider({
-      range: "min",
-      value: 10,
-      min: 2,
-      max: 50,
-      slide: function( event, ui ) {
-        $( "#shipCount" ).html(ui.value );
-      }
-    });
-  $( "#shipCount" ).html(  $( "#slider" ).slider( "value" ) );
-  $("#reset").button();
-  $("#reset").click(function(){
-	  
-	  try{
-		  var customController = $("#custom-code-area").val();
-		  var result = CoffeeScript.compile(customController, {bare: true});
-		  eval(result);
-		  alert(ExampleController2);
-		  //alert(result);
-	  }
-	  catch(e){
-		  alert(e);
-		  return;
-	  }
-	  
-	  world.config.reset = true;
-  });
-  $("#pause").button();
-  $("#pause").change(function(){
-	  world.config.pause = $(this).is(':checked');
-  });
-  $("#firstPerson").button();
-  $("#firstPerson").change(function(){
-	  world.config.firstPerson = $(this).is(':checked');
-  });
-  $("#saveScript").button();
-  $("#saveScript").click(function(){
-/*
-    $.ajax({
-      type: 'POST',
-      url: '/ships',
-      contentType: "application/json",
-      data:  {id: 1, uid: 2, content: $("#custom-code-area").val()},
-      success: function(data) {
-        alert(data);
-      },
-      dataType: 'json',
-    });
-*/
-    /*
-    $.post('/ships',$("#the-form").serialize(),function(data) {
-        alert(data);
-      });
-*/
-    $.ajax({
-      type: 'POST',
-      url: '/ships',
-      data: $("#the-form").serialize(),
-      success: function(data) {
-        alert(data);
-      },
-      dataType: 'json',
-    });
-  });
-
 });
 
+var socket = io.connect('http://localhost');
+socket.on('player', function(data){
+  console.log("id: " + data.id);
+  init(data.id);
+});
+
+socket.on('news', function (data) {
+  console.log(data);
+});
+
+socket.on('ping',function(data){
+  socket.emit('ping',data);
+});
+/*
+socket.on('players', function(data){
+  if(data.join){
+    console.log("Player " + data.join + " has joined");
+  } 
+  else if(data.part) {
+    console.log("Player " + data.part + " has left");
+  }
+});
+*/

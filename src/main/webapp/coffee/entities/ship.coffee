@@ -11,6 +11,7 @@ class Ship extends Entity
     super
     @speed = 1.0 if @speed > 1.0
     @speed = 0 if @speed < 0
+    @speed = @speed - 0.005
     @energy += 0.1 if @energy < 100
     @weaponCooldown -= 0.1 if @weaponCooldown > 0
  

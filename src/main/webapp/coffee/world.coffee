@@ -1,10 +1,10 @@
 class World
-  constructor: (@ctx) ->
+  constructor: (@ctx,@localId) ->
     @config = {}
-    @config.width = 1024
-    @config.height = 768
-    @config.shipCount = $("#slider").slider("value")
-    @config.firstPerson = false
+    @config.width = 1000
+    @config.height = 750
+    @config.shipCount = 1
+    @config.firstPerson = true
     @config.pause = false
     @config.reset = false
     
@@ -12,55 +12,88 @@ class World
     @ships = []
     @effects = []
     @bullets = []
-    
+
+    @localShip = null
+
+    ### 
     for num in [1..@config.shipCount]
       ship = new Ship()
       ship.sprite = spriteManager.sprites["Astro" + ((num%10)+1)]
-      shipController = new ExampleController()
+      if num == 1
+        shipController = new HumanController()
+      else 
+        shipController = new NetworkController()
       #new SittingDuckController() 
       ship.shipController = shipController
       ship.x = Math.random()*@config.width
       ship.y = Math.random()*@config.height
       @ships.push ship
+    ###
+
+    console.log("World Constructed")
+    socket.on 'players', (data) =>
+      console.log("Joining: " + data.join)
+      if data.join
+        ship = new Ship()
+        ship.id = data.join
+        ship.sprite = spriteManager.sprites["Astro" + ((ship.id%10)+1)]
+        if data.join == @localId
+          ship.shipController = new HumanController()
+        else
+          ship.shipController = new NetworkController(ship.id,ship)
+        ship.x = data.x
+        ship.y = data.y
+        @ships.push ship
+
+
+
+
 
   step: (delta) ->
     for i in [1..delta/10]
       
-      if @ships.length <= 1
-        @constructor(@ctx)
+#      if @ships.length <= 0
+#        @constructor(@ctx)
       
       clonedShips = cloneArray(@ships)
       clonedBullets = cloneArray(@bullets)
       
       for ship in @ships
-        try
-          ship.shipController.step(ship, @ships, @bullets)
-          ship.facing = ship.shipController.facing
-          ship.facing = 0 if isNaN ship.facing 
-          if ship.shipController.thrust
-            ship.accel = 0.01
-          if ship.shipController.shooting and ship.energy > 10 and ship.weaponCooldown <= 0
-            ship.weaponCooldown = 1
-            ship.energy -= 10
-            bullet = new Bullet()
-            bullet.sprite = spriteManager.sprites["Bullet11"]
-            bullet.ownerId = ship.id
-            bullet.x = ship.x
-            bullet.y = ship.y
-            bullet.heading = ship.facing
-            bullet.facing = ship.facing
-            bullet.speed = 2
-            @bullets.push(bullet)
-          ship.step()
-          if @tick % 10 == 0
-            effect = new EngineEffect()
-            effect.x = ship.x #+ Math.cos(ship.facing-Math.PI) * 10
-            effect.y = ship.y #+ Math.sin(ship.facing-Math.PI) * 10
-            #effect.heading = ship.heading
-            #effect.speed = ship.speed
-            @effects.push effect
-        catch error
-          #uh oh....
+#        try
+        ship.shipController.step(ship, @ships, @bullets)
+        if ship.shipController.turning < 0
+          ship.shipController.facing-=0.05
+        else if ship.shipController.turning > 0
+          ship.shipController.facing+=0.05
+        
+        ship.facing = ship.shipController.facing
+        ship.facing = 0 if isNaN ship.facing 
+        if ship.shipController.thrust
+          ship.accel = 0.01
+        else
+          ship.accel = 0
+        if ship.shipController.shooting and ship.energy > 10 and ship.weaponCooldown <= 0
+          ship.weaponCooldown = 1
+          ship.energy -= 10
+          bullet = new Bullet()
+          bullet.sprite = spriteManager.sprites["Bullet11"]
+          bullet.ownerId = ship.id
+          bullet.x = ship.x
+          bullet.y = ship.y
+          bullet.heading = ship.facing
+          bullet.facing = ship.facing
+          bullet.speed = 2
+          @bullets.push(bullet)
+        ship.step()
+        if @tick % 10 == 0
+          effect = new EngineEffect()
+          effect.x = ship.x #+ Math.cos(ship.facing-Math.PI) * 10
+          effect.y = ship.y #+ Math.sin(ship.facing-Math.PI) * 10
+          #effect.heading = ship.heading
+          #effect.speed = ship.speed
+          @effects.push effect
+#        catch error
+#          console.log error
 
 
       idx = 0
@@ -110,7 +143,7 @@ class World
     @ctx.fillRect  0, 0, @config.width, @config.height
     
     @ctx.save()
-    if @config.firstPerson
+    if @config.firstPerson && @ships[0]
       @ctx.translate(@config.width/2-@ships[0].x,-@config.height/2+@ships[0].y) # @x,@config.height-@y
 
     @ctx.globalAlpha=1.0
