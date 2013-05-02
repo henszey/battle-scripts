@@ -100,6 +100,7 @@ class NetworkController extends ShipController
       @ship.facing = @nextData.facing
       @ship.speed = @nextData.speed
       @ship.accel = @nextData.accel
+      @ship.ping = @nextData.ping
 
       @facing = @nextData.facing
       @thrust = @nextData.thrust

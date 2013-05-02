@@ -15,6 +15,7 @@ app.use("/", express.static(__dirname + '/webapp/'));
 var nextClientId = 123;
 sockets.on('connection', function (socket) {
   var clientId = nextClientId++;
+  var latency = 0;
   socket.clientId = clientId;
   socket.emit('player',{id: clientId});
   sockets.emit('players',{join: clientId, x: 500, y: 250});
@@ -30,6 +31,7 @@ sockets.on('connection', function (socket) {
   socket.on('ship', function (data) {
 //    console.log(data);
     data.id = clientId;
+    data.ping = latency
     sockets.emit('ship-' + clientId,data);
   });
 
@@ -38,8 +40,7 @@ sockets.on('connection', function (socket) {
   });
 
   socket.on('ping',function(data){
-    var latency = (new Date().getTime() - data.p)/2;
-    console.log(latency);
+    latency = (new Date().getTime() - data.p)/2;
   });
 
   socket.on('disconnect',function(socket) {
@@ -48,6 +49,6 @@ sockets.on('connection', function (socket) {
   });
 });
 setInterval(function(){
-  //sockets.emit('ping',{p: new Date().getTime()});
+  sockets.emit('ping',{p: new Date().getTime()});
 }, 1000);
 

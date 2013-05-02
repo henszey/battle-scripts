@@ -6,6 +6,7 @@ class Ship extends Entity
     @weaponCooldown = 0
     super
     @ownerId = @id
+    @ping = 0
     
   step: ->
     super
@@ -27,6 +28,7 @@ class Ship extends Entity
     ctx.globalAlpha=0.5;
     ctx.fillStyle = "gray"
     ctx.fillText "Ship " + @id,25,0
+    ctx.fillText "ping " + Math.ceil(@ping),25,12
     ctx.fillStyle = "blue"
     ctx.fillRect -25,20,50*@shields/100,4
     ctx.fillStyle = "red"
