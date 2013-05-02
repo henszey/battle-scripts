@@ -26,7 +26,7 @@ $(function(){
   
 });
 
-var socket = io.connect('http://localhost');
+var socket = io.connect();
 socket.on('player', function(data){
   console.log("id: " + data.id);
   init(data.id);
