@@ -12,7 +12,7 @@ app.get('/', function (req, res) {
 });
 app.use("/", express.static(__dirname + '/webapp/'));
 
-var nextClientId = 0;
+var nextClientId = 123;
 sockets.on('connection', function (socket) {
   var clientId = nextClientId++;
   socket.clientId = clientId;

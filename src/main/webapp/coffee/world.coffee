@@ -159,6 +159,16 @@ class World
     @ctx.drawImage(backImage,1200,810)
     @ctx.drawImage(backImage,1200,0)
     @ctx.drawImage(backImage,1200,-810)
+
+    @ctx.strokeStyle="silver";
+    @ctx.lineWidth = 5;
+    @ctx.beginPath();
+    @ctx.moveTo(0,0);
+    @ctx.lineTo(1000,0);
+    @ctx.lineTo(1000,750);
+    @ctx.lineTo(0,750);
+    @ctx.lineTo(0,0);
+    @ctx.stroke();
     
     for effect in @effects
       effect.draw @ctx
