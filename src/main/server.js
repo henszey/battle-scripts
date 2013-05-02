@@ -33,6 +33,10 @@ sockets.on('connection', function (socket) {
     sockets.emit('ship-' + clientId,data);
   });
 
+  socket.on('chat', function(data) {
+    sockets.emit('chat',"Client " + clientId + " says: " + data);
+  });
+
   socket.on('ping',function(data){
     var latency = (new Date().getTime() - data.p)/2;
     console.log(latency);

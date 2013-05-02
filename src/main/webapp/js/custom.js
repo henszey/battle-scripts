@@ -16,15 +16,7 @@ window.requestAnimFrame = function( callback ){
  */   
 var stats;
 
-$(function(){
-  stats = new Stats();
-  stats.getDomElement().style.position = 'absolute';
-  stats.getDomElement().style.left = '0px';
-  stats.getDomElement().style.top = '0px';
 
-  //document.body.appendChild( stats.getDomElement() );
-  
-});
 
 var socket = io.connect();
 socket.on('player', function(data){
@@ -39,6 +31,31 @@ socket.on('news', function (data) {
 socket.on('ping',function(data){
   socket.emit('ping',data);
 });
+
+socket.on('chat', function(data) {
+  $("#chatbox").prepend("<pre>" + data + "</pre>")
+});
+
+
+$(function(){
+  stats = new Stats();
+  stats.getDomElement().style.position = 'absolute';
+  stats.getDomElement().style.left = '0px';
+  stats.getDomElement().style.top = '0px';
+
+  document.body.appendChild( stats.getDomElement() );
+  
+  $("#chatentry").keypress(function(e) {
+    if(e.which == 13) {
+      socket.emit('chat',$(this).val());
+      $(this).val('');
+    }
+  });
+
+
+
+});
+
 /*
 socket.on('players', function(data){
   if(data.join){
