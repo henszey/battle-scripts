@@ -1,10 +1,11 @@
 
 
-#TODO: hack
+#hack
 backImage = new Image()
-backImage.src = "images/mydarktime-calm-space-ipad-wallpaper.jpg"
+#backImage.src = "images/mydarktime-calm-space-ipad-wallpaper.jpg"
+backImage.src = "images/stars.jpg"
 
-#TODO: config
+#needs config config
 explosion = []
 
 class SpriteManager

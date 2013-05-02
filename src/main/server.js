@@ -15,13 +15,20 @@ app.use("/", express.static(__dirname + '/webapp/'));
 var nextClientId = 0;
 sockets.on('connection', function (socket) {
   var clientId = nextClientId++;
+  socket.clientId = clientId;
   socket.emit('player',{id: clientId});
-  sockets.emit('players',{join: clientId, x: 0, y: 0});
+  sockets.emit('players',{join: clientId, x: 500, y: 250});
   console.log("Player " + clientId + " connected");
   socket.emit('news', { msg: 'Welcome client ' + clientId });
 
+  io.sockets.clients().forEach(function (otherSocket) {
+    if(clientId != otherSocket.clientId){
+      socket.emit('players',{join: otherSocket.clientId, x: 500, y: 250});
+    }
+  });
+
   socket.on('ship', function (data) {
-    console.log(data);
+//    console.log(data);
     data.id = clientId;
     sockets.emit('ship-' + clientId,data);
   });

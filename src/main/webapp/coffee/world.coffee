@@ -76,6 +76,7 @@ class World
           ship.weaponCooldown = 1
           ship.energy -= 10
           bullet = new Bullet()
+          new Audio("/sounds/menu_choice.mp3").play()
           bullet.sprite = spriteManager.sprites["Bullet11"]
           bullet.ownerId = ship.id
           bullet.x = ship.x
@@ -120,7 +121,7 @@ class World
                 effect.x = ship.x
                 effect.y = ship.y
                 @effects.push effect
-                #new Audio("/sounds/explosion1.ogg").play()
+                new Audio("/sounds/explosion1.ogg").play()
               @bullets.splice(idx, 1)
               removed = true
               break
@@ -148,7 +149,16 @@ class World
 
     @ctx.globalAlpha=1.0
     #@ctx.drawImage(backImage,0,0,1024,768,-512,-384,1024*2,768*2)
+    #oh so hacky
     @ctx.drawImage(backImage,0,0)
+    @ctx.drawImage(backImage,-1200,810)
+    @ctx.drawImage(backImage,-1200,0)
+    @ctx.drawImage(backImage,-1200,-810)
+    @ctx.drawImage(backImage,0,-810)
+    @ctx.drawImage(backImage,0,810)
+    @ctx.drawImage(backImage,1200,810)
+    @ctx.drawImage(backImage,1200,0)
+    @ctx.drawImage(backImage,1200,-810)
     
     for effect in @effects
       effect.draw @ctx
